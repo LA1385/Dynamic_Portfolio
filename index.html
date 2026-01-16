@@ -26,7 +26,7 @@
     <!-- overall container -->
     <div>
         <!-- NAVBAR & INTRODUCTION SECTION -->
-        <div class="flex flex-col gap-y-10 bg-gray-200 border-b-red-600 border-b-2 p-4 md:px-20">
+        <div id="Home" class="flex flex-col gap-y-10 bg-gray-200 border-b-red-600 border-b-2 p-4 md:px-20">
             <div class="flex flex-row justify-between items-center bg-white p-1 text-gray-300 rounded-3xl lg:rounded-4xl
             ">
                 <!-- LOGO -->
@@ -41,7 +41,7 @@
                     <div id="dropdownItem" class="hidden md:flex md:items-center md:gap-x-2">
                         <a href="#Service" class="text-xs font-bold hover:text-red-600">SERVICES</a>
                         <a href="#Project" class="text-xs font-bold hover:text-red-600">PROJECTS</a>
-                        <a href="Testimonial" class="text-xs font-bold hover:text-red-600">TESTIMONIALS</a>
+                        <a href="#Testimonials" class="text-xs font-bold hover:text-red-600">TESTIMONIALS</a>
                         <a href="#Contact" class="text-xs font-bold hover:text-red-600">CONTACT</a>
                     </div>
                     <a id="dropDownNav" href="#" class="text-xs md:hidden">
@@ -88,7 +88,7 @@
             </div>
         </div>
         <!-- Work processes & Best Expertise section -->
-        <div class="flex flex-col justify-center items-center bg-white gap-y-24 py-20">
+        <div id="Service" class="flex flex-col justify-center items-center bg-white gap-y-24 py-20">
         <!-- WORK PROCESS SECTION -->
             <div class="flex flex-col justify-center items-center gap-y-12">
                 <h2 class="text-2xl md:text-3xl font-bold">My Work Process</h2>
@@ -304,7 +304,7 @@
             
         </div>
         <!-- RECENT WORK SECTION -->
-        <div class="flex flex-col justify-center items-center gap-y-12 px-8 md:px-24 py-6 md:py-16">
+        <div id="Project" class="flex flex-col justify-center items-center gap-y-12 px-8 md:px-30 py-6 md:py-16">
             <div>
                 <h2 class="text-2xl md:text-3xl font-bold">My Recent Works
                 </h2>
@@ -330,8 +330,61 @@
                 </div>
             </div>
         </div>
-        <!-- GET IN TOUCH SECTION -->
-        <div></div>
+        <!--    Testimonial Section -->
+        <div id="Testimonials" class="grid grid-cols-1 md:grid-cols-2 gap-x-4 px-8 md:px-30 py-6 gap-y-6 md:py-16 justify-center items-center bg-gray-200">
+            <div class="order-2 md:order-1 flex gap-y-4 flex-col">
+                <div>
+                    <h2 class="text-2xl text-red-700 font-bold">"Best App"</h2>
+                </div>
+                <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</div>
+            </div>
+            <div class="order-1 md:order-2 gap-4">
+                <!-- Main Image -->
+                <div class="w-full">
+                    <img src="images/Testimonial2.jpeg" alt="Main-Image" class="w-full h-64 object-cover rounded-lg shadow-md">
+                </div>
+                <div class="flex">
+                    <div class="flex-1">
+                        <img src="images/appdev.jpeg" alt="Design-Project 1" class="w-full h-24 object-cover rounded-md">
+                    </div>
+                    <div class="flex-1">
+                        <img src="images/appdev1.jpeg" alt="Design-Project 1" class="w-full h-24 object-cover rounded-md">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Space Section -->
+         <div class="h-30 w-full bg-white"></div>
+
+        <!-- Get in Touch Section -->
+         <div id="Contact" class="flex flex-col md:flex-row gap-y-2 md:gap-x-4 items-center justify-center px-8 md:px-24 py-4 md:py-2 bg-gray-200">
+            <div>
+                <img src="images/email.png" alt="iamge not found">
+            </div>
+            <div class="flex flex-col gap-y-8">
+                <div>
+                    <h2 class="text-2xl font-bold">Get In Touch</h2>
+                </div>
+                <div class="">
+                    <input type="text" placeholder="Enter FullName" class=" text-gray-500 font-bold border-b-1 border-gray-500 pb-2 outline-none mr-2 mb-2">
+                    <input type="email" placeholder="Enter Email" class="text-gray-500 font-bold border-b-1 border-gray-500 pb-2 outline-none mb-2"> <br>
+                    <input type="text" placeholder="Subject" class="text-gray-500 font-bold border-b-1 border-gray-500 pb-2 outline-none w-full mb-2"><br>
+                    <input type="text" placeholder="Social Media Link" class="text-gray-500 font-bold border-b-1 border-gray-500 pb-2 w-full outline-none mb-2">
+                </div>
+            </div>
+         </div>
+        
+        <!-- Footer Section -->
+         <div class="bg-white flex flex-row justify-between items-center px-4 py-0 bottom-0">
+            <div>
+                <div class="border-2 border-red-600 mx-4 my-2">
+                    <img src="images/logo.png" class="h-5 md:h-10 w-5 md:w-10">
+                </div>
+            </div>
+            <div class="text-red-700 font-bold text-xs"> All right Reserved</div>
+            <div class="text-gray-500 font-bold text-xs">Copyright by &copy; A4DEV_5831 - <span id="year"></span></div>
+         </div>
     </div>
 
     <script src="script.js"></script>

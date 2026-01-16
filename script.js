@@ -120,8 +120,8 @@ addBtn.addEventListener("click",() =>{
 
 
 
-
-
-
-
-
+// Year of Present
+var Year = document.getElementById("year");
+var currentDate = new Date();
+var currentYear = currentDate.getFullYear();
+Year.innerHTML = currentYear;
