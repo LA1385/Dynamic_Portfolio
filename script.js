@@ -28,7 +28,15 @@ const defaultBio ="I am a professional creative design and app Developer. I am w
 
 editProfileBtn.addEventListener("click", () => {
     let name=prompt("Enter Your FullName:","Andrew Ben");
+    if (!name || name.trim() === "") {
+        alert("Name cannot be empty!");
+        return;
+    }
     let Bio=prompt("Enter Your Bio Description:",defaultBio);
+    if (!Bio || Bio.trim() === "") {
+        alert("Bio Description cannot be empty!");
+        return;
+    }
     let defaultImage="images/default.png";
     localStorage.setItem("name", name)
     localStorage.setItem("Bio", Bio)
@@ -55,12 +63,18 @@ const iconIds = document.querySelectorAll(".icon");
 const workProcess = document.getElementById("work-process");
 const workProcessContent = ["Research","Layout","System Design","Documentation"]
 
-
+const bgColor = "bg-gray-200";
+const bgColorOnHover = "bg-zinc-900";
 bigCircleIds.forEach((bigCircleId,index) =>{
 
     // When Mouse is on it
     bigCircleId.addEventListener("mouseenter", () =>{
-        bigCircleIds[index].classList.replace("bg-gray-200","bg-red-700");
+        if (bigCircleIds[index].classList.contains(bgColor)){
+        bigCircleIds[index].classList.replace(bgColor,"bg-red-700");
+        }
+        else{
+        bigCircleIds[index].classList.replace(bgColorOnHover, "bg-red-700");   
+        }
         smallCircleIds[index].classList.replace("border-red-400", "border-white");
         iconIds[index].classList.replace("text-red-700", "text-white");
         workProcess.innerHTML= workProcessContent[index];
@@ -68,7 +82,13 @@ bigCircleIds.forEach((bigCircleId,index) =>{
 
     // when mouse isn't on it
     bigCircleId.addEventListener("mouseleave", () => {
-        bigCircleIds[index].classList.replace("bg-red-700","bg-gray-200");
+        if (bigCircleIds[index].classList.contains("bg-red-700") && !serviceContainer.classList.contains("bg-black")){
+            bigCircleIds[index].classList.replace("bg-red-700", bgColor);
+        }
+        else{
+            bigCircleIds[index].classList.replace("bg-red-700", bgColorOnHover);
+        }
+        
         smallCircleIds[index].classList.replace("border-white","border-red-400");   
         iconIds[index].classList.replace("text-white","text-red-700");
         workProcess.innerHTML = "Icon Processes";
@@ -113,7 +133,7 @@ deleteBtns.forEach((deleteBtn,index) =>{
 
 // Adding a skill/Service button
 const addBtn = document.getElementById("add-button");
-const skillsContainer = document.getElementById("service-container"); // Update this ID
+const skillsContainer = document.getElementById("service-container"); 
 
 addBtn.addEventListener("click", () => {
     const skillName = prompt("Enter Skill/Service Name:");
@@ -137,17 +157,17 @@ addBtn.addEventListener("click", () => {
     skillCard.className = "skill-card flex flex-col jusify-center items-center bg-gray-200 px-4 py-4 gap-y-2 rounded-lg"; // Your classes
     skillCard.dataset.id = nextId; // Will be "added-0", "added-1", etc.
 
-    // Icon
+    
     const icon = document.createElement("div");
     icon.className = "h-8 text-red-700 border-2";
     icon.textContent = "⚙️";
 
-    // Name
+    
     const name = document.createElement("h3");
     name.className = "text-xl font-bold";
     name.textContent = skillName.trim();
 
-    // Statement
+    
     const statement = document.createElement("p");
     statement.className = "text-center text-gray-600";
     statement.textContent = skillStatement.trim();
@@ -171,19 +191,16 @@ addBtn.addEventListener("click", () => {
 
         // Check if it's an added skill
         if (itemId.startsWith("added-")) {
-            // Remove from addedSkills array
+            
             const skills = JSON.parse(localStorage.getItem("addedSkills") || "[]");
             const index = parseInt(itemId.replace("added-", ""));
             skills.splice(index, 1);
             localStorage.setItem("addedSkills", JSON.stringify(skills));
 
-            // Remove from page
+            
             card.remove();
-
-            // Reload to fix indices
             location.reload();
         } else {
-            // Original skill - use deletedItems approach
             card.remove();
 
             const currentDeleted = JSON.parse(localStorage.getItem("deletedItems") || "[]");
@@ -197,7 +214,6 @@ addBtn.addEventListener("click", () => {
     buttonDiv.appendChild(getServiceBtn);
     buttonDiv.appendChild(deleteBtn);
 
-    // Assemble the card
     skillCard.appendChild(icon);
     skillCard.appendChild(name);
     skillCard.appendChild(statement);
@@ -215,30 +231,27 @@ addBtn.addEventListener("click", () => {
     alert("Skill added successfully!");
 });
 
-// ========================================
-// LOAD ADDED SKILLS ON PAGE LOAD
-// ========================================
+
+// LOAD ADDED SKILLS WHEN PAGE LOAD
 
 function loadAddedSkills() {
     const addedSkills = JSON.parse(localStorage.getItem("addedSkills") || "[]");
-    const skillsContainer = document.getElementById("services-container"); // Update this ID
+    const skillsContainer = document.getElementById("service-container");
 
     addedSkills.forEach((skill, index) => {
         const skillCard = document.createElement("div");
         skillCard.className = "skill-card flex flex-col jusify-center items-center bg-gray-200 px-4 py-4 gap-y-2 rounded-lg";
-        skillCard.dataset.id = "added-" + index; // ← PREFIX
+        skillCard.dataset.id = "added-" + index; 
 
-        // Icon
+      
         const icon = document.createElement("div");
         icon.className = "h-8 text-red-700 border-2";
         icon.textContent = "⚙️";
 
-        // Name
         const name = document.createElement("h3");
         name.className = "text-xl font-bold";
         name.textContent = skill.name;
 
-        // Statement
         const statement = document.createElement("p");
         statement.className = "text-center text-gray-600";
         statement.textContent = skill.statement;
@@ -267,26 +280,198 @@ function loadAddedSkills() {
                 localStorage.setItem("addedSkills", JSON.stringify(skills));
 
                 card.remove();
-                location.reload(); // Reload to fix indices
+                location.reload(); 
             }
         });
 
-        // Assemble
+        const buttonDiv = document.createElement("div");
+        buttonDiv.className = "flex flex-col gap-y-2";
+        buttonDiv.appendChild(getServiceBtn);
+        buttonDiv.appendChild(deleteBtn);
+
         skillCard.appendChild(icon);
         skillCard.appendChild(name);
         skillCard.appendChild(statement);
-        skillCard.appendChild(getServiceBtn);
-        skillCard.appendChild(deleteBtn);
+        skillCard.appendChild(buttonDiv);
 
         skillsContainer.appendChild(skillCard);
     });
-}
+};
 
-// Call on page load
+
 loadAddedSkills();
 
 
-// Year of Present
+// Dark and Light Mode Functionality
+const lightMode = document.getElementById("light-mode");
+const darkMode = document.getElementById("dark-mode");
+const navContainer = document.getElementById("nav-container");
+const serviceContainer = document.getElementById("Service");
+const homeContainer = document.getElementById("Home");
+const headContainers = document.querySelectorAll("#heading");
+const skillContainers = document.querySelectorAll("#skill-container");
+const projectContainer = document.getElementById("Project");
+const testimonialContainer =document.getElementById("Testimonials");
+const testimonialText = document.getElementById("testimonial-text");
+const emptyDiv = document.getElementById("empty-space");
+const contactContainer = document.getElementById("Contact");
+const footerContainer = document.getElementById("footer");
+const toggleMode = null
+
+
+lightMode.addEventListener("click", () =>{
+    var toggleMode = "on";
+    localStorage.setItem("toggleMode",toggleMode);
+    lightMode.classList.replace("flex","hidden");
+    darkMode.classList.replace("hidden","flex");
+    navContainer.classList.replace("bg-white","bg-black");
+    serviceContainer.classList.replace("bg-white", "bg-black");
+    homeContainer.classList.replace("bg-gray-200", "bg-zinc-900");
+    profileName.classList.replace("text-black","text-white");
+    profileImage.classList.replace("bg-gray-300", "bg-black");
+    headContainers.forEach((headContainer) => {
+        headContainer.classList.add("text-white");
+    });
+    bigCircleIds.forEach((bigCircleId) =>{
+        bigCircleId.classList.replace("bg-gray-200","bg-zinc-900");
+    });
+    skillContainers.forEach((skillContainer) => {
+        skillContainer.classList.replace("bg-gray-200", "bg-zinc-900");
+    });
+    getServiceIds.forEach((getServiceId) =>{
+        getServiceId.classList.add("text-white");
+        getServiceId.classList.replace("hover:bg-black", "hover:bg-white");
+        getServiceId.classList.replace("hover:text-white", "hover:text-black");
+    });
+    deleteBtns.forEach((deleteBtn) => {
+        deleteBtn.classList.add("text-white");
+        deleteBtn.classList.replace("hover:bg-black", "hover:bg-white");
+        deleteBtn.classList.replace("hover:text-white", "hover:text-black");
+    });
+    addBtn.classList.add("text-white");
+    addBtn.classList.replace("hover:text-white", "hover:text-black");
+    projectContainer.classList.add("bg-black");
+    testimonialContainer.classList.replace("bg-gray-200", "bg-zinc-900");
+    testimonialText.classList.add("text-white");
+    contactContainer.classList.replace("bg-gray-200", "bg-zinc-900");
+    emptyDiv.classList.replace("bg-white","bg-black");
+    footerContainer.classList.replace("bg-white", "bg-black");
+});
+
+darkMode.addEventListener("click", () => {
+    var toggleMode = "off";
+    localStorage.setItem("toggleMode", toggleMode);
+    darkMode.classList.replace("flex", "hidden");
+    lightMode.classList.replace("hidden", "flex");
+    navContainer.classList.replace("bg-black","bg-white");
+    serviceContainer.classList.replace("bg-black","bg-white");
+    homeContainer.classList.replace("bg-zinc-900","bg-gray-200");
+    profileName.classList.replace("text-white","text-black");
+    profileImage.classList.replace("bg-black","bg-gray-300");
+    headContainers.forEach((headContainer) => {
+        headContainer.classList.remove("text-white");
+    });
+    bigCircleIds.forEach((bigCircleId) => {
+        bigCircleId.classList.replace("bg-zinc-900","bg-gray-200");
+    });
+    skillContainers.forEach((skillContainer) => {
+       skillContainer.classList.replace("bg-zinc-900", "bg-gray-200");
+    });
+    getServiceIds.forEach((getServiceId) => {
+        getServiceId.classList.remove("text-white");
+        getServiceId.classList.replace("hover:bg-white","hover:bg-black");
+        getServiceId.classList.replace("hover:text-black","hover:text-white");
+    });
+    deleteBtns.forEach((deleteBtn) => {
+        deleteBtn.classList.remove("text-white");
+        deleteBtn.classList.replace("hover:bg-white", "hover:bg-black");
+        deleteBtn.classList.replace("hover:text-black", "hover:text-white");
+    });
+    addBtn.classList.remove("text-white");
+    addBtn.classList.replace("hover:text-black","hover:text-white");
+    projectContainer.classList.remove("bg-black");
+    testimonialContainer.classList.replace("bg-zinc-900", "bg-gray-200");
+    testimonialText.classList.remove("text-white");
+    contactContainer.classList.replace("bg-zinc-900", "bg-gray-200");
+    emptyDiv.classList.replace("bg-black","bg-white");
+    footerContainer.classList.replace("bg-black", "bg-white");
+});
+
+var value = localStorage.getItem("toggleMode");
+if (value=="on"){
+    lightMode.classList.replace("flex", "hidden");
+    darkMode.classList.replace("hidden", "flex");
+    navContainer.classList.replace("bg-white", "bg-black");
+    serviceContainer.classList.replace("bg-white", "bg-black");
+    homeContainer.classList.replace("bg-gray-200", "bg-zinc-900");
+    profileName.classList.replace("text-black", "text-white");
+    profileImage.classList.replace("bg-gray-300", "bg-black");
+    headContainers.forEach((headContainer) => {
+        headContainer.classList.add("text-white");
+    });
+    bigCircleIds.forEach((bigCircleId) => {
+        bigCircleId.classList.replace("bg-gray-200", "bg-zinc-900");
+    });
+    skillContainers.forEach((skillContainer) => {
+        skillContainer.classList.replace("bg-gray-200", "bg-zinc-900");
+    });
+    getServiceIds.forEach((getServiceId) => {
+        getServiceId.classList.add("text-white");
+        getServiceId.classList.replace("hover:bg-black", "hover:bg-white");
+        getServiceId.classList.replace("hover:text-white", "hover:text-black");
+    });
+    deleteBtns.forEach((deleteBtn) => {
+        deleteBtn.classList.add("text-white");
+        deleteBtn.classList.replace("hover:bg-black", "hover:bg-white");
+        deleteBtn.classList.replace("hover:text-white", "hover:text-black");
+    });
+    addBtn.classList.add("text-white");
+    addBtn.classList.replace("hover:text-white", "hover:text-black");
+    projectContainer.classList.add("bg-black");
+    testimonialContainer.classList.replace("bg-gray-200", "bg-zinc-900");
+    testimonialText.classList.add("text-white");
+    contactContainer.classList.replace("bg-gray-200", "bg-zinc-900");
+    emptyDiv.classList.replace("bg-white", "bg-black");
+    footerContainer.classList.replace("bg-white", "bg-black");
+}
+else{
+    darkMode.classList.replace("flex", "hidden");
+    lightMode.classList.replace("hidden", "flex");
+    navContainer.classList.replace("bg-black", "bg-white");
+    serviceContainer.classList.replace("bg-black", "bg-white");
+    homeContainer.classList.replace("bg-zinc-900", "bg-gray-200");
+    profileName.classList.replace("text-white", "text-black");
+    profileImage.classList.replace("bg-black", "bg-gray-300");
+    headContainers.forEach((headContainer) => {
+        headContainer.classList.remove("text-white");
+    });
+    bigCircleIds.forEach((bigCircleId) => {
+        bigCircleId.classList.replace("bg-zinc-900", "bg-gray-200");
+    });
+    skillContainers.forEach((skillContainer) => {
+        skillContainer.classList.replace("bg-zinc-900", "bg-gray-200");
+    });
+    getServiceIds.forEach((getServiceId) => {
+        getServiceId.classList.remove("text-white");
+        getServiceId.classList.replace("hover:bg-white", "hover:bg-black");
+        getServiceId.classList.replace("hover:text-black", "hover:text-white");
+    });
+    deleteBtns.forEach((deleteBtn) => {
+        deleteBtn.classList.remove("text-white");
+        deleteBtn.classList.replace("hover:bg-white", "hover:bg-black");
+        deleteBtn.classList.replace("hover:text-black", "hover:text-white");
+    });
+    addBtn.classList.remove("text-white");
+    addBtn.classList.replace("hover:text-black", "hover:text-white");
+    projectContainer.classList.remove("bg-black");
+    testimonialContainer.classList.replace("bg-zinc-900", "bg-gray-200");
+    testimonialText.classList.remove("text-white");
+    contactContainer.classList.replace("bg-zinc-900", "bg-gray-200");
+    emptyDiv.classList.replace("bg-black", "bg-white");
+    footerContainer.classList.replace("bg-black", "bg-white");
+}
+
+// Present Year
 var Year = document.getElementById("year");
 var currentDate = new Date();
 var currentYear = currentDate.getFullYear();
